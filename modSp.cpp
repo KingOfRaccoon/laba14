@@ -3,33 +3,53 @@
 
 using namespace std;
 
-void processing(list *first) {
-    list *tec = first;
+void processing(list **first) {
+    list *tec;
     list *vr;
-    list *prev;
-    while (tec && tec->link->link) {
-        if (tec->data == tec->link->data) {
-            vr = tec->link;
-            tec->link = tec->link->link;
-            delete vr;
-        } else {
-            prev = tec;
-            tec = tec->link;
-        }
+    list *last;
+
+    while ((*first)->link && (*first)->link->data == (*first)->data) {
+        *first = (*first)->link;
     }
 
-    if (tec->data == tec->link->data) {
-        vr = prev->link;
-        prev->link = tec->link;
-        delete vr;
+    tec = (*first)->link;
+    vr = (*first);
+    printList(*first);
+    while (tec) {
+        if (tec->link == nullptr) {
+            last = vr->link;
+            vr->link = tec;
+            delete last;
+            break;
+        }
+
+        if (tec->data != tec->link->data && vr->link != tec) {
+            last = vr;
+            vr = tec;
+            delete last;
+            vr = vr->link;
+        }
+
+        tec = tec->link;
     }
+}
+
+void deleteList(list **first, list **end) {
+    list *tec;
+    while (*first) {
+        tec = *first;
+        *first = (*first)->link;
+        delete tec;
+    }
+    *end = nullptr;
 }
 
 void printList(list *tec) {
     do {
-        std::cout << tec->data;
+        cout << tec->data;
         tec = tec->link;
     } while (tec);
+    cout << endl;
 }
 
 void addItemInList(telem ch, list **first, list **end) {
@@ -45,14 +65,4 @@ void addItemInList(telem ch, list **first, list **end) {
 
 void initList(list **first, list **end) {
     *first = *end = nullptr;
-}
-
-void deleteList(list **first, list **end) {
-    list *tec;
-    while (*first) {
-        tec = *first;
-        *first = (*first)->link;
-        delete tec;
-    }
-    *end = nullptr;
 }

@@ -17,14 +17,11 @@ int main() {
         addItemInList(ch, &first, &end);
         cin >> ch;
     }
-    if (first && first->link && first->link->link) {
-        cout << "Исходный список:" << endl;
-        printList(first);
-        processing(first);
-        cout << "\nРезультат получен:\n";
-        addItemInList('9', &first, &end);
-        printList(first);
-        deleteList(&first, &end);
-    } else cout << "Список не создан или в нем меньше 3-х элементов";
+    cout << "Исходный список:" << endl;
+    printList(first);
+    processing(&first);
+    cout << "Результат получен:\n";
+    printList(first);
+    deleteList(&first, &end);
     return 0;
 }
