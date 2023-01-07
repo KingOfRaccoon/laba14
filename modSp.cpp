@@ -5,29 +5,32 @@ using namespace std;
 
 void processing(list **first) {
     list *tec;
-    list *vr;
-    list *last;
+    list *prev;
+    list *temp;
 
     while ((*first)->link && (*first)->link->data == (*first)->data) {
         *first = (*first)->link;
+
     }
 
     tec = (*first)->link;
-    vr = (*first);
-    printList(*first);
+    prev = (*first);
     while (tec) {
         if (tec->link == nullptr) {
-            last = vr->link;
-            vr->link = tec;
-            delete last;
+            temp = prev->link;
+            prev->link = tec;
+            delete temp;
             break;
         }
 
-        if (tec->data != tec->link->data && vr->link != tec) {
-            last = vr;
-            vr = tec;
-            delete last;
-            vr = vr->link;
+        if (tec->data != tec->link->data) {
+            if (prev->link != tec) {
+                temp = prev->link;
+                prev->link = tec;
+                delete temp;
+            }
+
+            prev = prev->link;
         }
 
         tec = tec->link;
