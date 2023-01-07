@@ -9,31 +9,31 @@ void processing(list **first) {
     list *temp;
 
     while ((*first)->link && (*first)->link->data == (*first)->data) {
+        temp = *first;
         *first = (*first)->link;
-
+        delete temp;
     }
 
-    tec = (*first)->link;
-    prev = (*first);
-    while (tec) {
-        if (tec->link == nullptr) {
-            temp = prev->link;
-            prev->link = tec;
-            delete temp;
-            break;
-        }
+    if ((*first)->link) {
+        tec = (*first)->link;
+        prev = (*first);
+        while (tec->link) {
+            if (tec->data != tec->link->data) {
+                if (prev->link != tec) {
+                    temp = prev->link;
+                    prev->link = tec;
+                    delete temp;
+                }
 
-        if (tec->data != tec->link->data) {
-            if (prev->link != tec) {
-                temp = prev->link;
-                prev->link = tec;
+                prev = prev->link;
+                tec = tec->link;
+            } else {
+                temp = tec;
+                tec = tec->link;
                 delete temp;
+                prev->link = tec;
             }
-
-            prev = prev->link;
         }
-
-        tec = tec->link;
     }
 }
 
